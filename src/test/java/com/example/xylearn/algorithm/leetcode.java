@@ -89,12 +89,12 @@ public class leetcode {
     //最长回文子串s = "babad" 返回aba
     //leetcode5
     @Test
-    public String getLongestPalindrome (){
+    public void getLongestPalindrome (){
         String s = "babad";
         // 特殊用例判断
         int len = s.length();
         if (len < 2) {
-            return s;
+            return ;
         }
 
         int maxLen = 1;
@@ -126,7 +126,30 @@ public class leetcode {
                 }
             }
         }
-        return s.substring(begin, begin + maxLen);
+        String substring = s.substring(begin, begin + maxLen);
+        System.out.println(substring);
+       // return s.substring(begin, begin + maxLen);
+
+    }
+
+
+    @Test
+    public void getSubString  () {
+        //一个字符串里面找指定的子字符串
+        String a = "ababababbb";
+        String b = "aba";
+
+
+        char[] chars = a.toCharArray();
+        for (int i = 0 ;i < chars.length-1;i++){
+            for (int j = 0;j< i ;j++){
+                String sub = a.substring(j,i);
+                if (sub.equals(b)){
+                    System.out.println(sub);
+                }
+            }
+        }
+
 
     }
 }
