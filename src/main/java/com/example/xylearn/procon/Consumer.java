@@ -18,7 +18,11 @@ public class Consumer extends Thread{
     @Override
     public void run() {
         while (true) {
-            foods.consume();
+            try {
+                foods.consume();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
