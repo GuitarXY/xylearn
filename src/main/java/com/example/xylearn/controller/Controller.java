@@ -1,9 +1,14 @@
 package com.example.xylearn.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.example.xylearn.dao.UserDao;
+import com.example.xylearn.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/xiaoyao")
@@ -20,6 +25,15 @@ public class Controller {
     public ModelAndView execute1() throws Exception{
         String url = "redirect:http://www.baidu.com";
         return new ModelAndView(url);
+
+    }
+    @Autowired
+    private UserDao userDao;
+    @RequestMapping("/hellomybatis")
+    public String hellomybatis() throws Exception{
+        List<User> all = userDao.findAll();
+        System.out.println(JSON.toJSON(all));
+        return all.toString();
 
     }
     @RequestMapping("/hello2")

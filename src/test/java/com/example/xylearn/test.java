@@ -1,6 +1,7 @@
 package com.example.xylearn;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,10 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class test {
+    private char name ='1';
     public void get(){
         System.out.println("get");
     }
-    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
         SocialWechatUser user1= new SocialWechatUser();
         user1.setId(1L);
         user1.setQwxid(1L);
@@ -37,6 +39,9 @@ public class test {
         Method method = clz.getMethod("get");
         Constructor constructor = clz.getConstructor();
         Object object = constructor.newInstance();
+        Field name = clz.getField("name");
+        char aChar = name.getChar(object);
+        System.out.println(aChar);
         method.invoke(object);
 
     }

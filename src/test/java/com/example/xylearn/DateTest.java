@@ -24,7 +24,13 @@ import java.util.stream.Collectors;
 
 @SpringBootTest
 public class DateTest {
+    @Test
+    public void testLocateDate11(){
 
+        Long a = 10000000000L;
+        Long b = 10000000000L;
+        System.out.println(a == b);
+    }
     Logger logger = LoggerFactory.getLogger(DateTest.class);
     @Test
     public void testLocateDate(){
