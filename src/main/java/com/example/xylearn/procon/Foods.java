@@ -6,7 +6,7 @@ public class Foods {
     public synchronized void produce() throws InterruptedException {
         if (index <= 9) {
             index++;
-            System.out.println(Thread.currentThread().getName() + "produce now index" +index );
+            System.out.println(Thread.currentThread().getName() + "produce now index" + index );
             notifyAll();
             notifyAll();
         }else {

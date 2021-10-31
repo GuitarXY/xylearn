@@ -18,8 +18,13 @@ public class Producer extends Thread{
     @Override
     public void run() {
         while (true) {
-            foods.produce();
-            Thread.sleep(100);
+            try {
+                foods.produce();
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
 
         }
 
