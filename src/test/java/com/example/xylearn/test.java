@@ -9,9 +9,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class test {
-    private char name ='1';
+    public char name ='1';
     public void get(){
-        System.out.println("get");
+        System.out.println(name);
     }
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchFieldException {
         SocialWechatUser user1= new SocialWechatUser();

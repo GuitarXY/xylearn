@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @org.springframework.stereotype.Controller
-@RequestMapping("/xiaoyao")
+@RequestMapping("/xiaoyao1")
 public class ControllerRestful {
 
 //    @Override
