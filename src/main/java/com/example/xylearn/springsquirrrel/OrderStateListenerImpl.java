@@ -6,13 +6,19 @@ import org.springframework.statemachine.annotation.OnTransition;
 import org.springframework.statemachine.annotation.WithStateMachine;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component("orderStateListener")
 @WithStateMachine(name = "orderStateMachine")
 public class OrderStateListenerImpl {
     @OnTransition(source = "WAIT_PAYMENT", target = "WAIT_DELIVER")
     public boolean payTransition(Message<OrderStatusChangeEvent> message) {
         Order order = (Order) message.getHeaders().get("order");
+        System.out.println("支付：父订单逻辑操作");
         order.setStatus(OrderStatus.WAIT_DELIVER);
+        System.out.println("支付：子订单逻辑操作");
+        List<OrderDetail> orderDetailList = order.getOrderDetailList();
+        orderDetailList.forEach(i -> i.setDetailStatus(OrderStatus.D_WAIT_DELIVER));
 
         System.out.println("支付，状态机反馈信息：" + message.getHeaders().toString());
         return true;

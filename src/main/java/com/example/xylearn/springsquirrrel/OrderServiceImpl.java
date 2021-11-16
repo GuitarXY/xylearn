@@ -10,6 +10,7 @@ import org.springframework.statemachine.StateMachine;
 import org.springframework.statemachine.persist.StateMachinePersister;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,29 +23,47 @@ public class OrderServiceImpl implements OrderService//, BeanPostProcessor
         System.out.println("After O1" + orderStateMachine);
         return arg0;
     }
+
     @Autowired
     private StateMachine<OrderStatus, OrderStatusChangeEvent> orderStateMachine;
     @Autowired
     private StateMachinePersister<OrderStatus, OrderStatusChangeEvent, Order> persister;
     private int id = 1;
+    private int detailId = 1;
     private Map<Integer, Order> orders = new HashMap<>();
+
     public Order create() {
         Order order = new Order();
         order.setStatus(OrderStatus.WAIT_PAYMENT);
         order.setId(id++);
+
+        OrderDetail detail1 = new OrderDetail();
+        detail1.setId(detailId++);
+        detail1.setDetailStatus(OrderStatus.D_WAIT_PAYMENT);
+        detail1.setOrderId(id);
+
+        OrderDetail detail2 = new OrderDetail();
+        detail2.setId(detailId++);
+        detail2.setDetailStatus(OrderStatus.D_WAIT_PAYMENT);
+        detail2.setOrderId(id);
+
+        order.setOrderDetailList(Arrays.asList(detail1, detail2));
         orders.put(order.getId(), order);
-        this.pay(order.getId());
         return order;
     }
+
     public Order pay(int id) {
         Order order = orders.get(id);
         System.out.println("线程名称：" + Thread.currentThread().getName() + " 尝试支付，订单号：" + id);
-        Message message = MessageBuilder.withPayload(OrderStatusChangeEvent.PAYED).setHeader("order", order).build();
+        Message message = MessageBuilder.withPayload(OrderStatusChangeEvent.PAYED)
+                .setHeader("order", order)
+                .build();
         if (!sendEvent(message, order)) {
             System.out.println("线程名称：" + Thread.currentThread().getName() + " 支付失败, 状态异常，订单号：" + id);
         }
         return orders.get(id);
     }
+
     public Order deliver(int id) {
         Order order = orders.get(id);
         System.out.println("线程名称：" + Thread.currentThread().getName() + " 尝试发货，订单号：" + id);
@@ -53,6 +72,7 @@ public class OrderServiceImpl implements OrderService//, BeanPostProcessor
         }
         return orders.get(id);
     }
+
     public Order receive(int id) {
         Order order = orders.get(id);
         System.out.println("线程名称：" + Thread.currentThread().getName() + " 尝试收货，订单号：" + id);
@@ -61,9 +81,11 @@ public class OrderServiceImpl implements OrderService//, BeanPostProcessor
         }
         return orders.get(id);
     }
+
     public Map<Integer, Order> getOrders() {
         return orders;
     }
+
     /**
      * 发送订单状态转换事件
      *

@@ -1,8 +1,20 @@
 package com.example.xylearn.springsquirrrel;
 
+import java.util.List;
+
 public class Order {
     private int id;
     private OrderStatus status;
+    List<OrderDetail> orderDetailList;
+
+    public List<OrderDetail> getOrderDetailList() {
+        return orderDetailList;
+    }
+
+    public void setOrderDetailList(List<OrderDetail> orderDetailList) {
+        this.orderDetailList = orderDetailList;
+    }
+
     public void setStatus(OrderStatus status) {
         this.status = status;
     }

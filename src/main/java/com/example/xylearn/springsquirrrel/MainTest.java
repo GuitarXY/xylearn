@@ -10,9 +10,8 @@ public class MainTest {
         Thread.currentThread().setName("主线程");
         ConfigurableApplicationContext context = SpringApplication.run(MainTest.class, args);
         OrderService orderService = (OrderService) context.getBean("orderService");
-        orderService.create();
-        //orderService.create();
-//        orderService.pay(1);
+        Order order = orderService.create();
+        orderService.pay(order.getId());
 //        orderService.deliver(1);
 //        orderService.receive(1);
 
