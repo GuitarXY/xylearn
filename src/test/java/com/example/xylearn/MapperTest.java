@@ -9,7 +9,6 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.List;
 import java.util.Map;
 @SpringBootTest
-@WebAppConfiguration
 public class MapperTest {
     @Autowired
     private Mapper mapper;

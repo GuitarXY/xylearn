@@ -119,9 +119,11 @@ public class DateTest {
         LocalDate localDate = LocalDate.now();
         ZoneId zoneId = ZoneId.systemDefault();
         ZonedDateTime zonedDateTime = localDate.atStartOfDay(zoneId);
+
         Date date = Date.from(zonedDateTime.toInstant());
 
-        LocalDateTime localDateTime = date.toInstant().atZone(zoneId).toLocalDateTime();
+        LocalDateTime localDateTime = date.toInstant().atZone(zoneId).toLocalDateTime().minusDays(-1);
+        Date fin = Date.from(localDateTime.atZone( ZoneId.systemDefault()).toInstant());
     }
 
 

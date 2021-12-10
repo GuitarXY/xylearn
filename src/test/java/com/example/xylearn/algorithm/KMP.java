@@ -5,7 +5,7 @@ package com.example.xylearn.algorithm;
  *
  * abaacababcac
  *
- * ababca
+ *      ababca
  * 第一个匹配的字符串数组下标为5
  *
  */
