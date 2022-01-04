@@ -64,7 +64,7 @@ public class DateTest {
         System.out.println("localDateTime :" + localDateTime);
         LocalDateTime localDateTime2 = localDateTime.minusDays(12);
         //格式化输出时间，线程安全的格式化类
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy哈哈哈哈MM月dd日 hh:mm:ss");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy哈哈哈哈MM月dd日 HH:mm:ss");
         System.out.println("format :" + dateTimeFormatter.format(localDateTime2));
         //  获取当前年份
         Year year = Year.of(2019);
@@ -73,7 +73,7 @@ public class DateTest {
         LocalDate localDate = year.atDay(41);
         System.out.println("localDate :" + localDate);
         //  把LocalTime关联到一个LocalDate得到一个LocalDateTime
-        LocalTime localTime = LocalTime.of(12,0);
+        LocalTime localTime = LocalTime.of(13,0);
         LocalDateTime localDateTime1 = localTime.atDate(localDate);
         System.out.println("localDateTime1 :" + dateTimeFormatter.format(localDateTime1));
         //  判断是否是闰年

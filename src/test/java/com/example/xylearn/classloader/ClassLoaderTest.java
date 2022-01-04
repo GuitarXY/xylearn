@@ -1,5 +1,7 @@
 package com.example.xylearn.classloader;
 
+import com.sun.org.apache.bcel.internal.generic.LoadClass;
+
 public class ClassLoaderTest {
     public static void main(String[] args) {
         //ClassLoader in  = int.class.getClassLoader();
@@ -7,10 +9,12 @@ public class ClassLoaderTest {
        // 因为当前的classloader 的parentclassloader方法没有，
         System.out.println("----------------------------------");
         ClassLoader cl  = cTest.class.getClassLoader();
+
         System.out.println("cl is " + cl.toString());
         System.out.println("----------------------------------");
         System.out.println(System.getProperty("sun.boot.class.path"));
         System.out.println("----------------------------------");
         System.out.println(System.getProperty("java.class.path"));
     }
+
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.example.xylearn.dao.UserDao;
 import com.example.xylearn.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +31,8 @@ public class Controller {
 
     }
 
-    @PostMapping("/urlEncode")
-    public String urlEncode(@RequestParam("s") String s) throws Exception {
+    @GetMapping("/urlEncode")
+    public String urlEncode( String s) throws Exception {
         System.out.println(s);
         return s;
 
