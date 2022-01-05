@@ -89,7 +89,7 @@ public class Pacakge {
 						dp[i][j]=Math.max(dp[i-1][j],dp[i-1][j-k*weight[i-1]]+k*value[i-1]);
 					}*/
                     for(int k=0;k<maxV+1;k++){
-                        dp[i][j] = dp[i][j]>Math.max(dp[i-1][j],dp[i-1][j-k*weight[i-1]]+k*value[i-1]) ? dp[i][j]:Math.max(dp[i-1][j],dp[i-1][j-k*weight[i-1]]+k*value[i-1]);
+                        dp[i][j] = Math.max(dp[i][j], Math.max(dp[i - 1][j], dp[i - 1][j - k * weight[i - 1]] + k * value[i - 1]));
                     }
                 }
             }
