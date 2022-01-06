@@ -1,5 +1,7 @@
 package com.example.xylearn.algorithm.recursive;
 
+import java.util.Stack;
+
 /**
  * 递归算法
  */
@@ -35,20 +37,33 @@ public class Recursive {
      *                ------finish
      * 思想：
      * 把n-1个模块从塔1移动塔2
-     * 把n个模块从塔1移动塔3
+     * 把第n个模块从塔1移动塔3
      * 把n-1个模块从塔2移动到塔3
+     *
+     * n个模块从a移动到c
      */
-    public static void hannota(int n,String a,String b,String c){
-        if (n==1){
-            System.out.println("把"+a+"移动到塔c");
+    public static void hannota(Stack a, Stack b, Stack c,int len){
+        if (len == 1 ){
+            c.push(a.pop());
+
         }else {
-            hannota(n-1,a,c,b);
-            System.out.println(n +"--"+a+ "移动到"+c);
-            hannota(n-1,b,a,c);
+            //移动到b上
+            hannota(a,c,b,len-1);
+
+            c.push(a.pop());
+            //b移动到c上
+            hannota(b,a,c,len-1);
         }
     }
 
     public static void main(String[] args) {
-        hannota(2,"a","b","c");
+        Stack<Integer> a = new Stack<>();
+        Stack<Integer> b = new Stack<>();
+        Stack<Integer> c = new Stack<>();
+        a.push(3);
+        a.push(2);
+        a.push(1);
+        hannota(a,b,c,a.size());
+        System.out.println(c);
     }
 }

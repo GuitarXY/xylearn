@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
  */
 public class NormalDateGeneralAnalyser extends BaseGeneralAnalyser<LocalDate, DateGeneralResult> {
 
-    private static final Pattern DATE_EXTRACT = Pattern.compile(".*(\\d{4})\\s{0,4}[\\-/年]\\s{0,4}(\\d{1,2})\\s{0,4}[\\-/月]\\s{0,4}(\\d{1,2})[日]?.*");
+    private static final Pattern DATE_EXTRACT1 = Pattern.compile(".*(\\d{4})\\s{0,4}[\\-/年]\\s{0,4}(\\d{1,2})\\s{0,4}[\\-/月]\\s{0,4}(\\d{1,2})[日]?.*");
     @Override
     protected BaseGeneralResult transfer(LocalDate results) {
         DateGeneralResult dateGeneralResult = new DateGeneralResult();
@@ -47,5 +47,45 @@ public class NormalDateGeneralAnalyser extends BaseGeneralAnalyser<LocalDate, Da
         }
 
         throw  new RuntimeException("must sth wrong(date format) " + val);
+    }
+
+    public static final Pattern DATE_EXTRACT = Pattern.compile(".*(\\d{4})\\s{0,4}[\\-/年]\\s{0,4}(\\d{1,2})\\s{0,4}[\\-/月](\\s{0,4}(\\d{1,2})[日]?)?.*");
+
+    public static void main(String[] args) {
+        Matcher matcher = DATE_EXTRACT.matcher("2021/9/13");
+
+        String year = "";
+        String month = "";
+        String day = "";
+        matcher = DATE_EXTRACT.matcher("2021年9月3日");
+        if (matcher.matches()) {
+            year = matcher.group(1);
+            month = matcher.group(2);
+            day = matcher.group(3);
+        }
+        matcher = DATE_EXTRACT.matcher("2021-9");
+        if (matcher.matches()) {
+            year = matcher.group(1);
+            month = matcher.group(2);
+            day = matcher.group(3);
+        }
+        if (matcher.matches()) {
+             year = matcher.group(1);
+             month = matcher.group(2);
+             day = matcher.group(3);
+        }
+        matcher = DATE_EXTRACT.matcher("21/9/13");
+        if (matcher.matches()) {
+             year = matcher.group(1);
+             month = matcher.group(2);
+             day = matcher.group(3);
+        }
+        matcher = DATE_EXTRACT.matcher("9/13");
+        if (matcher.matches()) {
+             year = matcher.group(1);
+             month = matcher.group(2);
+             day = matcher.group(3);
+        }
+
     }
 }
