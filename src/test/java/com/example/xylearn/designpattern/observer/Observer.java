@@ -1,4 +1,4 @@
-package com.example.xylearn.observer;
+package com.example.xylearn.designpattern.observer;
 
 public interface Observer {
     public void callBack();

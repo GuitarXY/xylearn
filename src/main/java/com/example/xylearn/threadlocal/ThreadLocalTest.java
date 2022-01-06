@@ -24,7 +24,10 @@ public class ThreadLocalTest {
     }
 
     public static void main(String[] args) {
+        holder.set(new ThreadLocalTest());
+
         ThreadLocalTest.add("一枝花算不算浪漫");
+
         System.out.println(holder.get().messages);
         ThreadLocalTest.clear();
     }

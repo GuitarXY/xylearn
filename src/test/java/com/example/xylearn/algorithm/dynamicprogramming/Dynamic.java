@@ -1,6 +1,8 @@
 package com.example.xylearn.algorithm.dynamicprogramming;
 
 import com.jayway.jsonpath.internal.function.numeric.Max;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
@@ -13,6 +15,7 @@ import java.util.Arrays;
  * 2终止条件
  * 3递归方向
  */
+@Slf4j
 public class Dynamic {
     /**
      * 一个小偷去一个数组房屋，值代表房屋的金额，但是不能偷相邻的房间，问小偷的最大金额
@@ -120,4 +123,45 @@ public class Dynamic {
 
 
     }
+    @Test
+    public void getTargetT(){
+        int S =20;
+        int[] arr = new int[]{34,12,5,2};
+        boolean re = getSubSet(arr,arr.length-1,S);
+        getSubSet1(arr,S);
+        log.info(String.valueOf(re));
+    }
+    private void getSubSet1(int[] arr,int s) {
+        boolean[][] ress = new boolean[arr.length][s+1];
+        for (int i = 0;i < arr.length;i++){
+            for (int j =0;j<s+1;j++){
+                if (i==0){ress[i][j]=arr[i]==j;continue;}
+                if (j==0){ress[i][j]=true;continue;}
+                if (arr[i]>s){
+                    ress[i][j] = ress[i-1][j];
+                }else {
+                    boolean a = ress[i-1][j-arr[i]];
+                    boolean b = ress[i-1][j];
+                    ress[i][j] = a||b;
+                }
+            }
+        }
+        log.info(String.valueOf(ress[arr.length-1][s]));
+
+    }
+    private boolean getSubSet(int[] arr, int i, int s) {
+        if (s == 0){
+            return  true;
+        }
+        if (i==0)
+            return s == arr[0];
+        if (arr[i] > s){
+            return getSubSet(arr,i-1,s);
+        }
+        boolean a = getSubSet(arr,i-1,s-arr[i]);
+        boolean b = getSubSet(arr,i-1,s);
+        return a || b;
+
+    }
+
 }
