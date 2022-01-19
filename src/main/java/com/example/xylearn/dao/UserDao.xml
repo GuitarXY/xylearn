@@ -14,7 +14,12 @@
     <select id="findAll" resultMap="baseResultMap">
        select * from t_user limit 10
     </select>
-
+    <select id="selectByPrimaryKey" flushCache="true" parameterType="java.lang.Integer" resultMap="baseResultMap">
+        select
+       *
+        from t_user
+        where id=#{id, jdbcType=INTEGER}
+    </select>
 
 
 </mapper>

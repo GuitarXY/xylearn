@@ -18,7 +18,8 @@ public class MyClient {
         NioEventLoopGroup eventExecutors = new NioEventLoopGroup();
         try {
             //创建bootstrap对象，配置参数
-            //Bootstrap和ServerBootStrap是Netty提供的一个创建客户端和服务端启动器的工厂类，使用这个工厂类非常便利地创建启动类，根据上面的一些例子，其实也看得出来能大大地减少了开发的难度
+            //Bootstrap和ServerBootStrap是Netty提供的一个创建客户端和服务端启动器的工厂类，
+            // 使用这个工厂类非常便利地创建启动类，根据上面的一些例子，其实也看得出来能大大地减少了开发的难度
             Bootstrap bootstrap = new Bootstrap();
             //设置线程组
             bootstrap.group(eventExecutors)
@@ -38,7 +39,9 @@ public class MyClient {
             ChannelFuture channelFuture = bootstrap.connect("127.0.0.1", 6666).sync();
             //对通道关闭进行监听
             /**
-             * ChannelFuture提供操作完成时一种异步通知的方式。一般在Socket编程中，等待响应结果都是同步阻塞的，而Netty则不会造成阻塞，因为ChannelFuture是采取类似观察者模式的形式进行获取结果
+             * ChannelFuture提供操作完成时一种异步通知的方式。一般在Socket编程中，
+             * 等待响应结果都是同步阻塞的，而Netty则不会造成阻塞，
+             * 因为ChannelFuture是采取类似观察者模式的形式进行获取结果
              */
             channelFuture.addListener(new ChannelFutureListener() {
                 //使用匿名内部类，ChannelFutureListener接口

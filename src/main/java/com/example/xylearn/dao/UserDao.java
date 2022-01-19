@@ -15,4 +15,5 @@ public interface UserDao {
      */
     List<User> findAll();
 
+    User selectByPrimaryKey(int i);
 }

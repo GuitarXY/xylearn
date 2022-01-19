@@ -2,6 +2,7 @@ package com.example.xylearn;
 
 import com.example.xylearn.procon.ProcessingThread;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 @Controller
 public class Mapper {
+    @Value("${test.aaa}")
+    private String a;
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @GetMapping("/cpu/loop")
@@ -19,7 +22,12 @@ public class Mapper {
         System.out.println("请求cpu死循环");
         Thread.currentThread().setName("loop-thread-cpu");
         int num = 0;
+        long l = System.currentTimeMillis();
         while (true) {
+            long r = System.currentTimeMillis();
+            if (r-l>60000){
+                break;
+            }
             num++;
             if (num == Integer.MAX_VALUE) {
                 System.out.println("reset");
@@ -27,7 +35,7 @@ public class Mapper {
             new Mapper();
             num = 0;
         }
-
+        System.out.println("请求cpu死循环 结束");
     }
 
     @GetMapping("/cpu/loopnewobject")
