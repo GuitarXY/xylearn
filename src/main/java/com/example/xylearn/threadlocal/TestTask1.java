@@ -1,13 +1,12 @@
 package com.example.xylearn.threadlocal;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * @author xiaoy
  * @date 2022/1/19
  */
-public class TestTask implements Runnable {
+public class TestTask1 implements Runnable {
     private boolean stop = false;
     private ThreadLocal<SimpleDateFormat> sdfHolder = new ThreadLocal<SimpleDateFormat>() {
         @Override
@@ -15,12 +14,6 @@ public class TestTask implements Runnable {
             return new SimpleDateFormat("yyyyMMdd");
         }
     };
-
-    public static void main(String[] args) {
-        Byte o = null;
-        byte i =1;
-        if (o == i){};
-    }
 
     @Override
     public void run() {
