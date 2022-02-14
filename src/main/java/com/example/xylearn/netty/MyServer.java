@@ -34,7 +34,7 @@ public class MyServer {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             //给pipeline管道设置处理器
-                            socketChannel.pipeline().addLast(new MyServerHandler());
+                            socketChannel.pipeline().addLast(new MyServerHandler1(),new MyServerHandler());
                         }
                     });//给workerGroup的EventLoop对应的管道设置处理器
             System.out.println("java技术爱好者的服务端已经准备就绪...");

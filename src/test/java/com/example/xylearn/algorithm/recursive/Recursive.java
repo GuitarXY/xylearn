@@ -57,13 +57,28 @@ public class Recursive {
     }
 
     public static void main(String[] args) {
-        Stack<Integer> a = new Stack<>();
-        Stack<Integer> b = new Stack<>();
-        Stack<Integer> c = new Stack<>();
-        a.push(3);
-        a.push(2);
-        a.push(1);
-        hannota(a,b,c,a.size());
-        System.out.println(c);
+        Class<Recursive> recursiveClass = Recursive.class;
+        recursiveClass.getClassLoader();
+        int deep = getDeep(3, 7);
+        System.out.println(deep);
+//        Stack<Integer> a = new Stack<>();
+//        Stack<Integer> b = new Stack<>();
+//        Stack<Integer> c = new Stack<>();
+//        a.push(3);
+//        a.push(2);
+//        a.push(1);
+//        hannota(a,b,c,a.size());
+//        System.out.println(c);
+    }
+    public static int count = 0 ;
+    private static int getDeep(int i, int j) {
+        if (i==1 && j == 1) {
+            return 1;
+        }
+        if (i < 1 || j < 1) {
+            return  0;
+        }
+        return getDeep(i-1,j) +  getDeep(i ,j-1);
+
     }
 }

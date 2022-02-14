@@ -145,6 +145,31 @@ class XylearnApplicationTests {
 
     }
 
+
+    public void merge(int[] list,int start,int end) {
+        int mid = (start + end )/2;
+        merge(list,start, mid);
+        merge(list,mid+1, end);
+        mergeS1(list,start,mid,end);
+    }
+
+    private void mergeS1(int[] list, int start, int mid, int end) {
+        int i = start;
+        int j =mid;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
     private void mergeSort(int[] list, int start, int mid, int end) {
         if (start >= end) {
             return;
