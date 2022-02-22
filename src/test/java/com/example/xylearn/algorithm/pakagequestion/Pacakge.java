@@ -1,5 +1,10 @@
 package com.example.xylearn.algorithm.pakagequestion;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Pacakge {
     /**
      * 背包问题
@@ -14,6 +19,49 @@ public class Pacakge {
         int goodNum = weight.length;
         int cap = 13;
         System.out.println(ZeroOnePack(cap,goodNum,weight,value));
+    }
+    public String[] permutation(String str) {
+        char[] chars = str.toCharArray();
+        boolean[] visited = new boolean[chars.length];
+        List<Character> path = new ArrayList<>();
+        List<String> list = new ArrayList<>();
+        // 排序
+        Arrays.sort(chars);
+        dfs(chars, visited, path, list);
+        String[] strings = new String[list.size()];
+        return list.toArray(strings);
+    }
+
+    private void dfs(char[] chars, boolean[] visited, List<Character> path, List<String> list) {
+
+        if (path.size() == chars.length) {
+            StringBuilder sb = new StringBuilder();
+            for (Character character : path) {
+                sb.append(character);
+            }
+            list.add(sb.toString());
+            return;
+        }
+
+
+        for (int i = 0; i < chars.length; i++) {
+            // 剪枝
+            if (visited[i]) {
+                continue;
+            }
+            // 去掉同层重复，不容层是可以重复的
+            if (i > 0 && chars[i] == chars[i - 1] && !visited[i - 1]) { // 同层
+                continue;
+            }
+            visited[i] = true;
+            path.add(chars[i]);
+            dfs(chars, visited, path, list);
+
+            // 回溯
+            visited[i] = false;
+            path.remove(path.size() -1);
+
+        }
     }
 
     /**
@@ -70,7 +118,6 @@ public class Pacakge {
     /**
      * 第三类背包：多重背包
      *
-     * @param args
      */
     public static int manyPack(int V,int N,int[] weight,int[] value,int[] num){
         //初始化动态规划数组

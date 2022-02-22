@@ -4,7 +4,7 @@ import com.jayway.jsonpath.internal.function.numeric.Max;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * 动态规划
@@ -163,5 +163,93 @@ public class Dynamic {
         return a || b;
 
     }
+
+
+    /**
+     * le838 推倒骨牌
+     * @param dominoes
+     * @return
+     */
+    public String pushDominoes(String dominoes) {
+        int n = dominoes.length();
+        Deque<Integer> queue = new ArrayDeque<Integer>();
+        int[] time = new int[n];
+        Arrays.fill(time, -1);
+        List<Character>[] force = new List[n];
+        for (int i = 0; i < n; i++) {
+            force[i] = new ArrayList<Character>();
+        }
+        for (int i = 0; i < n; i++) {
+            char f = dominoes.charAt(i);
+            if (f != '.') {
+                queue.offer(i);
+                time[i] = 0;
+                force[i].add(f);
+            }
+        }
+
+        char[] res = new char[n];
+        Arrays.fill(res, '.');
+        while (!queue.isEmpty()) {
+            int i = queue.poll();
+            if (force[i].size() == 1) {
+                char f = force[i].get(0);
+                res[i] = f;
+                int ni = f == 'L' ? i - 1 : i + 1;
+                if (ni >= 0 && ni < n) {
+                    int t = time[i];
+                    if (time[ni] == -1) {
+                        queue.offer(ni);
+                        time[ni] = t + 1;
+                        force[ni].add(f);
+                    } else if (time[ni] == t + 1) {
+                        force[ni].add(f);
+                    }
+                }
+            }
+        }
+        return new String(res);
+    }
+
+    /**
+     * le 10
+     * 正则表达式.*的匹配
+     * @param s
+     * @param p
+     * @return
+     */
+    public boolean isMatch(String s, String p) {
+        int m = s.length();
+        int n = p.length();
+
+        boolean[][] f = new boolean[m + 1][n + 1];
+        f[0][0] = true;
+        for (int i = 0; i <= m; ++i) {
+            for (int j = 1; j <= n; ++j) {
+                if (p.charAt(j - 1) == '*') {
+                    f[i][j] = f[i][j - 2];
+                    if (matches(s, p, i, j - 1)) {
+                        f[i][j] = f[i][j] || f[i - 1][j];
+                    }
+                } else {
+                    if (matches(s, p, i, j)) {
+                        f[i][j] = f[i - 1][j - 1];
+                    }
+                }
+            }
+        }
+        return f[m][n];
+    }
+
+    public boolean matches(String s, String p, int i, int j) {
+        if (i == 0) {
+            return false;
+        }
+        if (p.charAt(j - 1) == '.') {
+            return true;
+        }
+        return s.charAt(i - 1) == p.charAt(j - 1);
+    }
+
 
 }

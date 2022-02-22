@@ -32,4 +32,11 @@ public class Foods {
 
         return index;
     }
+
+
+
+
+    public void q(int[] nums,int i ){
+
+    }
 }
