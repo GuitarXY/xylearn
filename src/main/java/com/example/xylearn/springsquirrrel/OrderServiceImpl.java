@@ -17,6 +17,11 @@ import java.util.Map;
 @Service("orderService")
 public class OrderServiceImpl implements OrderService//, BeanPostProcessor
 {
+   static byte[] xiaoyaoByte = new byte[101024];
+    static Map<String,Object> map  = new HashMap<>();
+    static {
+        map.put("1",xiaoyaoByte);
+    }
     public Object postProcessAfterInitialization(Object arg0, String arg1)
             throws BeansException {
         // TODO Auto-generated method stub

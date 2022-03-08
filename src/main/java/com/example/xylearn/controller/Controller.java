@@ -3,6 +3,7 @@ package com.example.xylearn.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.xylearn.dao.UserDao;
 import com.example.xylearn.domain.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 @org.springframework.stereotype.Controller
 @RequestMapping("/xiaoyao")
+@Slf4j
 public class Controller {
 
     //    @Override
@@ -24,10 +27,23 @@ public class Controller {
 //        ModelAndView mv = new ModelAndView("hello");
 //        return mv;
 //    }
-    @RequestMapping("/hello1")
+    @Autowired
+    private A a;
+    @GetMapping("/hello1")
     public ModelAndView execute1() throws Exception {
-        String url = "redirect:http://www.baidu.com";
-        return new ModelAndView(url);
+      a.getAsync();
+        return null;
+    }
+    @PostMapping("/hello2")
+    public ModelAndView execute2() throws Exception {
+        long l = System.currentTimeMillis();
+        while(true){
+            long l1 = System.currentTimeMillis();
+
+            if ((int)((l1-l)/1000 ) %10 == 0) {
+                log.info("i:"+new Date(l1));
+            }
+        }
 
     }
 

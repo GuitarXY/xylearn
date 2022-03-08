@@ -1,5 +1,7 @@
 package com.example.xylearn.algorithm.dynamicprogramming;
 
+import com.example.xylearn.springsquirrrel.OrderService;
+import com.example.xylearn.springsquirrrel.OrderServiceImpl;
 import com.jayway.jsonpath.internal.function.numeric.Max;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -116,10 +118,12 @@ public class Dynamic {
 
 
     public static void main(String[] args) {
-        Dynamic dynamic = new Dynamic();
-        int[] ints = {2, 3, 10, 6, 8, 2, 6, 1};
-       // System.out.println(dynamic.getMaxValue(ints));
-        System.out.println( dynamic.rob(ints));
+        OrderService lis = new OrderServiceImpl();
+        System.out.println(lis.getClass());
+//        Dynamic dynamic = new Dynamic();
+//        int[] ints = {2, 3, 10, 6, 8, 2, 6, 1};
+//       // System.out.println(dynamic.getMaxValue(ints));
+//        System.out.println( dynamic.rob(ints));
 
 
     }
@@ -163,7 +167,6 @@ public class Dynamic {
         return a || b;
 
     }
-
 
     /**
      * le838 推倒骨牌
