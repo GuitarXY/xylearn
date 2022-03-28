@@ -1,4 +1,4 @@
-package com.example.xylearn;
+package com.example.xylearn.common;
 
 import java.util.Objects;
 

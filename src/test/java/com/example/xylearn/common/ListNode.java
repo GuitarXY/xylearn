@@ -5,6 +5,9 @@ public class ListNode {
     private String value;
     public ListNode next;
 
+    public ListNode() {
+    }
+
     public ListNode(String value) {
         this.value = value;
     }
@@ -33,6 +36,10 @@ public class ListNode {
         return next;
     }
 
+    public ListNode setNextAndGet(String value){
+        this.next = new ListNode(value);
+        return this.next;
+    }
     @Override
     public String toString() {
         return "Node{" +

@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -21,23 +23,11 @@ import java.util.Map;
 @Slf4j
 public class MyExcelUtil {
     public static void main(String[] args) {
-        String url = "http://xinbianli.oss-cn-hangzhou.aliyuncs.com/fdd/template/765f9924b2e34186ae09a45b3ffcf997.xls";
+        String url = "http://xinbianli.oss-cn-hangzhou.aliyuncs.com/fdd/template/747074ad339540c4b8306664e660848d.xlsx";
         List<Map<Integer, String>> listMap = getExcelListMapIncludEmpRoe(url,1,0);
         log.info("data {}", JSON.toJSONString(listMap));
     }
-    private ExcelReader getExcelReader(String fileUrl, int sheetNum) {
-        cn.hutool.poi.excel.ExcelReader excelReader = null;
-        try {
-            URL url = new URL(fileUrl);
-            InputStream files= null;
-            files = url.openStream();
-            excelReader = ExcelUtil.getReader(files,sheetNum);
 
-        }catch (Exception e) {
-            log.info(ExceptionUtils.getStackTrace(e));
-        }
-        return excelReader;
-    }
     private static List<Map<Integer, String>> getExcelListMapIncludEmpRoe(String fileUrl, int headEndNum, int sheetNum) {
         List<Map<Integer, String>> listMap = null;
         try {

@@ -15,99 +15,62 @@ import java.util.Stack;
  *
  */
 public class KMP {
-
-
-
-    public static String simplifyPath(String path) {
-        String[] split = path.split("/");
-        Stack<String> st = new Stack<>();
-        for (String s : split){
-            if (s.isEmpty()){
-                continue;
-            }
-            if (".".equals(s)){
-                continue;
-            }
-            if ("..".equals(s)){
-                if (st.size() != 0){
-                    st.pop();
-
-                }
-                continue;
-
-            }
-            st.push(s);
-        }
-        if (st.empty()){
-            return "/";
-        }
-        StringBuilder res=new StringBuilder();
-        Iterator<String> iterator = st.iterator();
-        while(iterator.hasNext()){
-            String next = iterator.next();
-            res.append("/"+next);
-        }
-        return res.toString();
-
-    }
-
-    public static String longestPalindrome(String s) {
-        int len = s.length();
-        if(len ==0 || len ==1){
-            return s;
-        }
-        int[][] dp = new int[len][len];
-        int start = 0;
-        int max=1;
-        for(int i=0 ; i< len ;i++){
-            dp[i][i] = 1;
-            if(i<len -1 && s.charAt(i+1) ==s.charAt(i) ){
-                dp[i][i+1] = 1;
-                start = i;
-                max =2;
-            }
-        }
-
-        for(int le = 3 ; le <= len ;le++){
-            for (int i = 0 ; i+le-1 < len;i++){
-                if(s.charAt(i) ==s.charAt(i+le-1) && dp[i+1][i+le-2] == 1 ){
-                    dp[i][i+le-1] = 1;  //
-                    start = i;
-                    max =le;
-                }
-            }
-        }
-        return s.substring(start,start+max);
-    }
     public static void main(String[] args) {
-        longestPalindrome("aaaaa");
+        yanghui2(10);
     }
-
-    /**
-     * 构建子串的prefix table
-     * 例子
-     * ababc
-     *
-     * 五个前缀
-     * a
-     * ab
-     * aba
-     * abab
-     * ababc
-     * 找出五个字符串的最长公共子串 的长度
-     *
-     *   -1
-     * a 0
-     * ab 0
-     * aba 1
-     * abab 2
-     * ababc 0
-     * @param a
-     * @param b
-     * @return
-     */
-    private static int findTheIndex(String a, String b) {
-        return 0;
+    private static void yanghui1(int rows) {
+        for (int i = 0; i < rows; i++) {
+            int number = 1;
+            // 打印空格字符串
+            System.out.format("%" + (rows - i) * 2 + "s", "");
+            for (int j = 0; j <= i; j++) {
+                System.out.format("%4d", number);
+                number = number * (i - j) / (j + 1);
+            }
+            System.out.println();
+        }
     }
+    private static void yanghui2(int row){
+        int [][] yanghui = new int[row][row];
+        for (int i = 0; i < row; i++){//行
+            for(int j = 0;j<= i;j++){//列
+                if (j==0 || j==i){
+                    yanghui[i][j]=1;
+                }else{
+                    yanghui[i][j]=yanghui[i-1][j-1]+yanghui[i-1][j];
+                }
+            }
+        }
+//等腰输出处理
+        for (int i = 0; i < row; i++){
+            int num = row -i;
+            for(int j = 0;j<= num;j++){
+                System.out.print(" ");
+            }
+            for(int k= 0;k<= i;k++){
+                System.out.print(yanghui[i][k]+" ");
+            }
+            System.out.println();
+        }
 
+    }
+    private static void yanghui(int num) {
+        int[][] res = new int[num][num];
+        for(int i = 0 ;i < num;i++ ){
+            //
+            for(int j = 0 ; j <=i;j++){
+                if(j==0||j==i){
+                    res[i][j] = 1;
+                }else {
+                    res[i][j] = res[i-1][j]+res[i-1][j-1];
+                }
+            }
+        }
+        for (int[] re : res) {
+            for (int i : re) {
+                System.out.print(i+" ");
+            }
+            System.out.print("\n");
+        }
+    }
 }
