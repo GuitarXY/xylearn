@@ -4,6 +4,7 @@ import org.springframework.test.annotation.IfProfileValue;
 
 /**
  * @author xiaoy
+ * 最长重复自创
  * @date 2022/1/5
  */
 public class LongRepeatedString {
