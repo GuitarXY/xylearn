@@ -3,6 +3,7 @@ package com.example.xylearn.classloader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.atomic.LongAdder;
 
 public class DefineClassLoadTest extends ClassLoader {
     @Override
@@ -12,6 +13,9 @@ public class DefineClassLoadTest extends ClassLoader {
         }
         if ("ClassLoaderTest2".equals(name)){
             return ClassLoaderTest1.class;
+        }
+        if ("String".equals(name)){
+            return LongAdder.class ;
         }
         return super.loadClass(name);
     }

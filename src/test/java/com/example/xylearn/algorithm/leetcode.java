@@ -1,6 +1,7 @@
 package com.example.xylearn.algorithm;
 
 import com.example.xylearn.common.ListNode;
+import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -8,8 +9,149 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class leetcode {
+    public int findKthLargest(int[] nums, int k) {
+        return quickSelect(nums, 0, nums.length - 1, nums.length - k);
+    }
+    // public int quickSelect(int nums,int l,int r, int index){
+    //     int te  = getT(nums,l,r);
+    //     if(te == index){
+    //         return nums[te];
+    //     }else{
+    //         return te>index? quickSelect(nums,l,r-1,index):quickSelect(nums,l,r-1,index)
+    //     }
+    // }
+
+    public int quickSelect(int[] a, int l, int r, int index) {
+        int q = partition (a, l, r);
+        if (q == index) {
+            return a[q];
+        } else {
+            return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
+        }
+    }
+    public int partition(int[] a, int l, int r) {
+        int x = a[r], i = l - 1;
+        int t = r-1;
+        while(l<t){
+            while(a[++l] <= x && l<t){}
+            while(a[--t] > x && l<t){}
+            if(l<t){
+                swap(a,l,t);
+            }
+        }
+        if(a[l]>x){
+            swap(a, l, r);
+        }else {
+            swap(a, ++l, r);
+        }
+        return l;
+    }
+
+    public void swap(int[] a, int i, int j) {
+        int temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+    List<String> res = new ArrayList<>();
+    List<String> tem = new ArrayList<>();
+    public int longestConsecutive(int[] nums) {
+        Set<Integer> num_set = new HashSet<Integer>();
+        for (int num : nums) {
+            num_set.add(num);
+        }
+
+        int longestStreak = 0;
+
+        for (int num : num_set) {
+            if (!num_set.contains(num - 1)) {
+                //找到起始位置
+                int currentNum = num;
+                int currentStreak = 1;
+
+                while (num_set.contains(currentNum + 1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+    static class TimeThread extends Thread{
+        public TimeThread(String name) {
+            super(name);
+        }
+        static ReentrantLock lock = new ReentrantLock();
+        @SneakyThrows
+        @Override
+        public void run() {
+            super.run();
+            boolean b = lock.tryLock(11000, TimeUnit.MILLISECONDS);
+            if (b){
+                System.out.println(Thread.currentThread().getName()+"进入锁内");
+                Thread.sleep(10000);
+                System.out.println(Thread.currentThread().getName()+"释放锁");
+            }else {
+                System.out.println(Thread.currentThread().getName()+"没获取到锁");
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+//        Thread aThread = new TimeThread("线程A");
+//        Thread bThread = new TimeThread("线程B");
+//        aThread.start();
+//        bThread.start();
+        String str;
+        {
+            str = "{\n" +
+                    "    \"datas\": [{\n" +
+                    "        \"flowId\": 1477939063873024,\n" +
+                    "        \"nodeId\": \"1477952271523328\",\n" +
+                    "        \"uniqueId\": \"1477939063880960\",\n" +
+                    "        \"typeCode\": \"eventNameFieldCode\",\n" +
+                    "        \"typeName\": \"参数传递\",\n" +
+                    "        \"eventNameFieldDetails\": [{\n" +
+                    "            \"eventName\": \"订阅事件1\",\n" +
+                    "            \"eventId\": 123,\n" +
+                    "            \"paramList\": [{\n" +
+                    "                    \"fieldName\": \"字段1\",\n" +
+                    "                    \"fieldCode\": \"code1\",\n" +
+                    "                    \"typeName\": \"字符串类型\",\n" +
+                    "                    \"flowFieldCode\": \"流程字段code1\",\n" +
+                    "                    \"flowFieldName\": \"流程字段name1\"\n" +
+                    "                },\n" +
+                    "                {\n" +
+                    "                    \"fieldName\": \"字段2\",\n" +
+                    "                    \"fieldCode\": \"code2\",\n" +
+                    "                    \"typeName\": \"字符串类型\",\n" +
+                    "                    \"flowFieldCode\": \"流程字段code2\",\n" +
+                    "                    \"flowFieldName\": \"流程字段name2\"\n" +
+                    "                }\n" +
+                    "            ]\n" +
+                    "        }]\n" +
+                    "    },\n" +
+                    "    {\n" +
+                    "         \"flowId\": 1477939063873024,\n" +
+                    "        \"nodeId\": \"1477952271523328\",\n" +
+                    "        \"uniqueId\": \"1477939063880960\",\n" +
+                    "        \"typeCode\": \"subscriptionEventOpenValue\",\n" +
+                    "        \"typeName\": \"事件订阅开关\",\n" +
+                    "       \"valueDetail\":[{\"detailTypeCode\":\"subscriptionEventOpenValue\",\"detailValue\":1}] \n"+
+                    "    }]\n" +
+                    "}";
+        }
+
+        System.out.println(str);
+
+
+    }
 
     @Test
     public void testleetcode4() {
