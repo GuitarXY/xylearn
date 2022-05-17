@@ -115,9 +115,9 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.txt</include>
+                    <!--<include>**/*.properties</include>-->
+                    <!--<include>**/*.xml</include>-->
+                    <!--<include>**/*.txt</include>-->
                 </includes>
                 <filtering>false</filtering>
 
