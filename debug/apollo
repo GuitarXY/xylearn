@@ -1,0 +1,4 @@
+ApolloConfigRegistrar.registerBeanDefinitions //enableapolloConfig注解的实现
+RemoteConfigRepository.loadApolloConfig  //远程拉取阿波罗代码相关
+AutoConfigurationImportSelector.selectImports   //获取spring自动注入的相关spi 在meta-INf文件夹下面
+AutoConfigurationImportSelector.getCandidateConfigurations

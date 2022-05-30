@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
-//@Service
+@Service
 public class B {
     String c;
+    @Autowired
     private A a;
     //@Autowired
     public B(A a) {

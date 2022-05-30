@@ -1,10 +1,17 @@
 package com.example.xylearn.netty.fileio;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.excel.write.metadata.WriteTable;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author xiaoy
@@ -12,7 +19,49 @@ import java.nio.channels.FileChannel;
  */
 public class NomalFile {
     public static void main(String[] args) throws IOException {
+        List<List<String>> headListAll = new ArrayList<>();
+        List<String> h = Arrays.asList("head");
+        headListAll.add(h);
+        List<List<String>> rows = new ArrayList<>();
+        List<String> r = Arrays.asList("test");
+        rows.add(r);
+        String filename = "xiaoa";
+        ExcelWriter excelWriter = null;
+        String path = "D:\\" + filename + ".xlsx";
+        String filePath = filename + ".xlsx";
+        File dbfFile = new File(path);
+        FileOutputStream out = null;
+        try {
+            if (!dbfFile.exists() || dbfFile.isDirectory()) {
+                dbfFile.createNewFile();
+            }
+            out = new FileOutputStream(dbfFile);
+            excelWriter = EasyExcel.write(out, null).build();
 
+            WriteSheet writeSheet = EasyExcel.writerSheet(filename).build();
+            WriteTable writeTable = EasyExcel.writerTable().build();
+            writeTable.setTableNo(1);
+            writeTable.setHead(headListAll);
+
+            excelWriter.write(rows, writeSheet, writeTable);
+
+            //删除
+           // dbfFile.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // 千万别忘记finish 会帮忙关闭流
+            if (excelWriter != null) {
+                excelWriter.finish();
+            }
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
     public static void normalIo() throws Exception {
         // file(内存)----输入流---->【程序】----输出流---->file(内存)
