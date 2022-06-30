@@ -1,0 +1,26 @@
+@value工作相关
+PropertyPlaceholderHelper.parseStringValue //placeholder.equals("test.map11")
+PropertySourcesPropertyResolver.getProperty  //"test.map11".equals(key) || "test.map".equals(key)
+三级缓存
+DefaultSingletonBeanRegistry.getSingleton //beanName.equals("userService")||beanName.equals("a")
+@async生成代理
+AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization //processor instanceof AsyncAnnotationBeanPostProcessor && beanName.equals("a")
+AbstractAutowireCapableBeanFactory.getEarlyBeanReference  //beanName.equals("userService")||beanName.equals("a")
+@async使用的线程池
+AsyncExecutionAspectSupport.determineAsyncExecutor
+AsyncExecutionAspectSupport.doSubmit
+AnnotationAsyncExecutionInterceptor.getExecutorQualifier
+加入executeor的beandefinition
+TaskNamespaceHandler.init
+
+
+mybatis
+创建sqlSessionFactory  DefaultSqlSessionFactory.DefaultSqlSessionFactory
+流程
+xxcontroller 依赖->xxDao->mapperScan注解解析-》生成代理-》依赖sqlsessionfactory->MybatisAutoConfiguration -> DefaultSqlSessionFactory.DefaultSqlSessionFactory
+MybatisAutoConfiguration是如何引入到spring内部的？
+DefaultSqlSession构造方法*
+@mappersacn工作原理
+MapperScannerConfigurer 继承 BeanDefintionRegistryPostProcessor 会交由spring去导入MapperScannerRegistrar
+会去解析注解的包路径，把mapper放到beanDEfintion中，后面生成mapper代理
+ConfigurationClassPostProcessor

@@ -1,14 +1,11 @@
 package com.example.xylearn.algorithm;
 
+import com.example.util.TreeNode;
 import com.example.xylearn.common.ListNode;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -32,6 +29,85 @@ public class leetcode {
         } else {
             return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
         }
+    }
+
+    public static void main(String[] args) {
+        String s = "wordgoodgoodgoodbestword";
+        String[] word = new String[]{"word","good","best","good"};
+        leetcode c = new leetcode();
+        List<Integer> substring = c.findSubstring(s, word);
+    }
+
+    public List<Integer> findSubstring(String s, String[] words) {
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i< s.length();i++){
+            char c = s.charAt(i);
+            List<String> strings = Arrays.asList(words);
+            boolean comp = isCom(c,i,strings,s);
+            if(comp){
+                res.add(i);
+            }
+
+        }
+        return res;
+    }
+    public boolean isCom(char ch, int index,List<String> words,String s){
+        for(int i = 0; i < words.size();i++){
+            String temS = words.get(i);
+            if(temS.charAt(0) == ch){
+                if((index+temS.length()) <= s.length() && temS.equals(s.substring(index,index+temS.length()))){
+                    if(words.size() == 1){
+                        return true;
+                    }
+                    List<String> te = new ArrayList<>(words);
+                    te.remove(i);
+                    if ((index+temS.length()) == s.length()){
+                        return false;
+                    }
+                    return isCom(s.charAt(index+temS.length()),index+temS.length(),te,s);
+                }
+            }
+        }
+        return false;
+    }
+    public static void main2(String[] args) {
+        TreeNode n1 = new TreeNode(1);
+        TreeNode n2 = new TreeNode(2);
+        TreeNode n3 = new TreeNode(3);
+        TreeNode n4 = new TreeNode(4);
+        TreeNode n5 = new TreeNode(5);
+        TreeNode n6 = new TreeNode(6);
+        TreeNode n7 = new TreeNode(7);
+        n1.left = n2;
+        n1.right = n3;
+        n2.left = n4;
+        n3.left = n5;
+        n3.right = n6;
+        n5.left = n7;
+        int bottomLeftValue = findBottomLeftValue(n1);
+    }
+    public static  int findBottomLeftValue(TreeNode root) {
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int ret=0;
+        while(!queue.isEmpty()){
+            TreeNode l = null;
+            int size = queue.size();
+            for(int i = 0 ; i<size;i++){
+                TreeNode node = queue.pollFirst();
+                if(i==0){
+                    l = node;
+                }
+                if(node.left != null){
+                    queue.offerLast(node.left);
+                }
+                if(node.right != null){
+                    queue.offerLast(node.right);
+                }
+            }
+            ret = l.val;
+        }
+        return ret;
     }
     public int partition(int[] a, int l, int r) {
         int x = a[r], i = l - 1;
@@ -103,7 +179,7 @@ public class leetcode {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
 //        Thread aThread = new TimeThread("线程A");
 //        Thread bThread = new TimeThread("线程B");
 //        aThread.start();

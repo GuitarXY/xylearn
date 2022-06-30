@@ -35,18 +35,18 @@ public class RSAUtil {
 
     public static int[] generRSAK(){
         int[] key = new int[3];//下标0,1为公钥，2为密钥
-        int p1 = RSAUtil.getRandomZhiShu();
+        int p1 = RSAUtil.getRandomZhiShu();//找出质数P 3 Q 11
         int p2 = RSAUtil.getRandomZhiShu();
-        int n = p1*p2;
-        int olaN = (p1-1)*(p2 -1);
+        int n = p1*p2; //公共模数 33
+        int olaN = (p1-1)*(p2 -1); //欧拉函数 20
         while (olaN <= zhi100.get(0)){
              p1 = RSAUtil.getRandomZhiShu();
              p2 = RSAUtil.getRandomZhiShu();
              n = p1*p2;
              olaN = (p1-1)*(p2 -1);
         }
-        int e = zhi100.get(1) ;
-        int d = -1;
+        int e = zhi100.get(1) ;  // E的范围0到欧拉函数之间， 与欧拉函数互质 E = 3
+        int d = -1; // 计算公钥 E*D % olaN = 1  D = 7
         for (int i =1; i< 1000;i++){
             if ((e*i)%olaN == 1){
                 d = i;
@@ -76,14 +76,14 @@ public class RSAUtil {
 
     public static void main(String[] args) {
         int[] key = RSAUtil.generRSAK();
-        int n = key[0];
-        int e = key[1];
-        int d = key[2];
-        int msg = 10;
-        double encript = ( Math.pow(msg,e)) % n;
+        int n = key[0];//33
+        int e = key[1];//3
+        int d = key[2];//7
+        int msg = 2;
+        double encript = ( Math.pow(msg,e)) % n; //公钥加密
 
         double decripted = ( Math.pow(encript,d))%n;
-        System.out.println(decripted);
+        System.out.println(null instanceof String);
 
     }
 }

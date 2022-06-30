@@ -6,3 +6,6 @@ mybatis:
 #  configuration:
 #    #默认开启驼峰命名法，可以不用设置该属性
 #    map-underscore-to-camel-case: true
+
+test:
+  map11: '{"test1":"12345","test2":"54321"}'

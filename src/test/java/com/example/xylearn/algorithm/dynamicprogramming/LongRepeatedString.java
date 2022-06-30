@@ -1,10 +1,8 @@
 package com.example.xylearn.algorithm.dynamicprogramming;
 
-import org.springframework.test.annotation.IfProfileValue;
-
 /**
  * @author xiaoy
- * 最长重复自创
+ * 最长重复字串
  * @date 2022/1/5
  */
 public class LongRepeatedString {
