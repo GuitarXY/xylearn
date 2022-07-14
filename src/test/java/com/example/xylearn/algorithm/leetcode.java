@@ -10,9 +10,75 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class leetcode {
-    public int findKthLargest(int[] nums, int k) {
-        return quickSelect(nums, 0, nums.length - 1, nums.length - k);
+    /**
+     * 数组中逆序对
+     * 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
+     * 输入: [7,5,6,4]
+     * 输出: 5
+     *
+     * 51
+     * @param nums
+     * @return
+     */
+    public int reversePairs(int[] nums) {
+        int len = nums.length;
+
+        if (len < 2) {
+            return 0;
+        }
+
+        int[] copy = Arrays.copyOf(nums, len);
+
+        int[] temp = new int[len];
+        return reversePairs(copy, 0, len - 1, temp);
     }
+
+    private int reversePairs(int[] nums, int left, int right, int[] temp) {
+        if (left == right) {
+            return 0;
+        }
+
+        int mid = left + (right - left) / 2;
+        int leftPairs = reversePairs(nums, left, mid, temp);
+        int rightPairs = reversePairs(nums, mid + 1, right, temp);
+
+        if (nums[mid] <= nums[mid + 1]) {
+            return leftPairs + rightPairs;
+        }
+
+        int crossPairs = mergeAndCount(nums, left, mid, right, temp);
+        return leftPairs + rightPairs + crossPairs;
+    }
+
+    private int mergeAndCount(int[] nums, int left, int mid, int right, int[] temp) {
+        for (int i = left; i <= right; i++) {
+            temp[i] = nums[i];
+        }
+
+        int i = left;
+        int j = mid + 1;
+
+        int count = 0;
+        for (int k = left; k <= right; k++) {
+
+            if (i == mid + 1) {
+                nums[k] = temp[j];
+                j++;
+            } else if (j == right + 1) {
+                nums[k] = temp[i];
+                i++;
+            } else if (temp[i] <= temp[j]) {
+                nums[k] = temp[i];
+                i++;
+            } else {
+                nums[k] = temp[j];
+                j++;
+                count += (mid - i + 1);
+            }
+        }
+        return count;
+    }
+
     // public int quickSelect(int nums,int l,int r, int index){
     //     int te  = getT(nums,l,r);
     //     if(te == index){
@@ -22,14 +88,7 @@ public class leetcode {
     //     }
     // }
 
-    public int quickSelect(int[] a, int l, int r, int index) {
-        int q = partition (a, l, r);
-        if (q == index) {
-            return a[q];
-        } else {
-            return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
-        }
-    }
+
 
     public static void main(String[] args) {
         String s = "wordgoodgoodgoodbestword";
@@ -109,12 +168,23 @@ public class leetcode {
         }
         return ret;
     }
+    public int findKthLargest(int[] nums, int k) {
+        return quickSelect(nums, 0, nums.length - 1, nums.length - k);
+    }
+    public int quickSelect(int[] a, int l, int r, int index) {
+        int q = partition (a, l, r);//a[r] 所在的索引
+        if (q == index) {
+            return a[q];
+        } else {
+            return q < index ? quickSelect(a, q + 1, r, index) : quickSelect(a, l, q - 1, index);
+        }
+    }
     public int partition(int[] a, int l, int r) {
-        int x = a[r], i = l - 1;
+        int x = a[r];
         int t = r-1;
         while(l<t){
-            while(a[++l] <= x && l<t){}
-            while(a[--t] > x && l<t){}
+            while(a[l] <= x && l<t){l++;}//第一个比x大的
+            while(a[t] > x && l<t){t--;}//第一个小于或者等于x的
             if(l<t){
                 swap(a,l,t);
             }
