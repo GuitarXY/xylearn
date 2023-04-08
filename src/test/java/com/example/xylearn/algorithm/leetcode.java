@@ -112,6 +112,7 @@ public class leetcode {
 //            } else if (temp[i] <= temp[j]) {
 //                nums[k] = temp[i];
 //                i++;
+        test1Rebase
 //            } else {
 //                nums[k] = temp[j];
 //                j++;
