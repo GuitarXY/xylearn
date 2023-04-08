@@ -1,5 +1,6 @@
 package com.example.xylearn.algorithm.dynamicprogramming;
 
+import com.example.xylearn.common.ListNode;
 import com.example.xylearn.springsquirrrel.OrderService;
 import com.example.xylearn.springsquirrrel.OrderServiceImpl;
 import com.jayway.jsonpath.internal.function.numeric.Max;
@@ -166,6 +167,40 @@ public class Dynamic {
         return new String(res);
     }
 
+//    public boolean isMatch1(String s, String p) {
+//        int m = s.length();
+//        int n = p.length();
+//        boolean[][] res = new boolean[m+1][n+1];
+//        for(int i = 0 ;i < m;i++){
+//            for(int j = 0 ; j < n ; j++){
+//                //第0号位必须相同
+//                final char c = p.charAt(i);
+//                if (c=='*'){
+//                    res[i][j] = true;
+//                }else if()
+//                if(i!=0 && j!=0 && res[i-1][j-1] && isMatch(i,j));
+//            }
+//        }
+//        return res[m][n];
+//    }
+//    public ListNode revK(ListNode node ,int k){
+//        int i=k;
+//        ListNode te = node;
+//        boolean isEnd =false;
+//        while(i!=0){
+//            i--;
+//            if(te.next!=null){
+//                te= te.next;
+//            }else{
+//                isEnd=true;
+//                break;
+//            }
+//        }
+//        if (isEnd){
+//            ListNode n = null;//revers(node,k);
+//            return n;
+//        }
+//    }
     /**
      * le 10
      * 正则表达式.*的匹配
@@ -196,7 +231,17 @@ public class Dynamic {
         }
         return f[m][n];
     }
+    {
 
+    }
+    /**
+     * i-1,j-1是否匹配
+     * @param s
+     * @param p
+     * @param i
+     * @param j
+     * @return
+     */
     public boolean matches(String s, String p, int i, int j) {
         if (i == 0) {
             return false;

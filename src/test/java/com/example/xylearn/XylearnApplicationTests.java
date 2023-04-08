@@ -1,18 +1,25 @@
 package com.example.xylearn;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alipay.service.schema.util.StringUtil;
+import com.example.xylearn.common.ListNode;
+import com.example.xylearn.controller.A;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.awt.*;
+import java.io.*;
 import java.lang.reflect.Array;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,13 +77,87 @@ class XylearnApplicationTests {
 //    YYYY/MM/DD
 //    YYYY-MM-DD HH:MM
 //    YYYY-MM-DD HH:MM AM
-    public static void main(String[] args) {
-        XylearnApplicationTests.parseDate("3301-11-23");
-        XylearnApplicationTests.parseDate("2021年11月23日");
-        XylearnApplicationTests.parseDate("2021-1-23");
-        XylearnApplicationTests.parseDate("2021/11/23");
-        XylearnApplicationTests.parseDate("2021/1/23");
-        XylearnApplicationTests.parseDate("1/23");
+    public static void main(String[] args) throws Exception {
+        String stt = "{p1:\"13755610449\",p2:1478692546573825,p3:[{f1:\"\",f2:\"1\"},{f1:null,f2:\"\"}]}";
+
+        final Map map1 = JSON.parseObject(stt, Map.class);
+//        String tiu = JSON.toJSONString(map1, SerializerFeature.w);
+
+
+//        Long.parseLong("10117310162518020010");
+        for (int i = 0; i < 5; i++) {
+            if(i<5){
+                if (i==3){
+                    continue;
+                }
+                if (i==3){
+                    throw new Exception("");
+                }
+            }
+
+        }
+//        File flie = new File("C:\\Users\\MC-701\\Desktop\\my\\fq\\chang.txt");
+        String path = "C:\\Users\\MC-701\\Desktop\\my\\fq\\cc.txt";
+
+        File file = new File(path);
+        StringBuilder content = new StringBuilder();
+        String encoding = "utf-8";
+        try (InputStreamReader read = new InputStreamReader(new FileInputStream(file), encoding);
+             BufferedReader bufferedReader = new BufferedReader(read)) {
+            //判断文件是否存在
+            if (file.isFile() && file.exists()) {
+                String lineTxt;
+                while ((lineTxt = bufferedReader.readLine()) != null) {
+                    content.append(lineTxt);
+                }
+            } else {
+                System.out.println("找不到指定的文件");
+            }
+        } catch (Exception e) {
+            System.out.println("读取文件内容出错");
+        }
+//        System.out.println(content);
+        Map map = JSON.parseObject(content.toString(), Map.class);
+//        final String s = JSON.toJSONString(null);
+//        final A a = JSONObject.parseObject(s, A.class);
+//        XylearnApplicationTests.parseDate("3301-11-23");
+//        XylearnApplicationTests.parseDate("2021年11月23日");
+//        XylearnApplicationTests.parseDate("2021-1-23");
+//        XylearnApplicationTests.parseDate("2021/11/23");
+//        XylearnApplicationTests.parseDate("2021/1/23");
+//        XylearnApplicationTests.parseDate("1/23");
+        final XylearnApplicationTests xylearnApplicationTests = new XylearnApplicationTests();
+        ListNode l = ListNode.of("1,2,3,4,5,6,7,8");
+
+        List<List<String>> guanlian = new ArrayList<>();
+        guanlian.add(Arrays.asList("A","B,C"));
+        guanlian.add(Arrays.asList("B","C"));
+        guanlian.add(Arrays.asList("C","E"));
+        guanlian.add(Arrays.asList("E","B"));
+        List<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        list.add("D");
+        list.add("E");
+        list.add("F");
+        final List<String> strings = xylearnApplicationTests.get(list, guanlian, "E");
+        System.out.println(strings);
+    }
+    List<String> get(List<String> list,List<List<String>> guanlian,String s){
+        List<String> g = new ArrayList<>();
+        getAll(s,guanlian,g);
+        list.removeAll(g);
+        return list;
+    }
+
+    private void getAll(String s, List<List<String>> guanlian,List<String> re) {
+        re.add(s);
+        for (List<String> strings : guanlian) {
+            if (strings.get(1).contains(s)){
+                getAll(strings.get(0),guanlian,re);
+            }
+        }
     }
 
     @Test
@@ -88,7 +169,25 @@ class XylearnApplicationTests {
         Integer [] objects = (Integer[])l.toArray();
         Arrays.stream(lis).boxed().collect(Collectors.toList());
     }
-
+    private void qiuckS11(int[] list, int low, int hight) {
+        if (low>=hight){
+            return;
+        }
+        int stander = list[low];
+        int i = low+1;
+        int j = hight;
+        while(i<j){
+            while(i<j&&list[i]<=stander){
+                i++;
+            }
+            while(i<j&&list[j]>stander){
+                j--;
+            }
+        }
+        //分开
+        qiuckS11(list,low,low+hight/2);
+        qiuckS11(list,low+hight/2+1, hight);
+    }
     @Test
     public void quickSort() {
         int[] list = {4,6,7,2,1,4};
@@ -108,7 +207,6 @@ class XylearnApplicationTests {
         while (i < j) { // 从表的两端交替向中间扫描
             while (i < j && a[j] > index)
                 j--;
-
             while (i < j && a[i] <= index)
                 i++;
             if (i < j){
@@ -125,10 +223,114 @@ class XylearnApplicationTests {
     }
 
 
+
+
+    public void MergesS(int[] list1,int start,int end){
+        int mid = start + (start+end)/2;
+        if (start<end){
+            mergeS(list1,start,mid);
+            mergeS(list1,mid+1,end);
+            mS(list1,start,mid,end);
+        }
+
+    }
+    Stack<Integer> s1 = new Stack<>();
+    Stack<Integer> s2 = new Stack<>();
+
+    public void appendTail(int value) {
+        s2.push(value);
+    }
+
+    public int deleteHead() {
+        if (s1.isEmpty()){
+            //s2,倒入s1
+            if (s2.isEmpty()){
+                return -1;
+            }
+            while (!s2.isEmpty()){
+                s1.push(s2.pop());
+            }
+        }
+        return s1.pop();
+    }
+
+    private void mS(int[] list1, int start, int mid, int end) {
+        if (start>=end){
+            return;
+        }
+        int[] temp = new int[end-start+1];
+        int t = 0;
+        int i = start;
+        int j = mid+1;
+        while(i<=mid && j<=end){
+            if ( list1[i]<=list1[j]){
+                temp[t++] = list1[i];
+                i++;
+            }else {
+                temp[t++] = list1[j];
+                j++;
+            }
+        }
+        while (i<=mid) {
+            temp[t++] = list1[i];
+            i++;
+        }
+        while (j<=mid){
+            temp[t++] = list1[j];
+            j++;
+        }
+        System.arraycopy(temp,0,list1,start,temp.length);
+    }
+
+
+
+
+    public String removeKdigits(String num, int k) {
+        final char[] chars = num.toCharArray();
+        Stack<Integer> st = new Stack<>();
+        for (int i = 0; i < chars.length; i++) {
+            if (st.isEmpty()){
+                st.push(i);
+                continue;
+            }
+            if (k==0){
+                st.push(i);
+                continue;
+            }
+            if (chars[st.peek()] <= chars[i]){
+                st.push(i);
+            }else {
+                while (!st.isEmpty() && k != 0 && chars[st.peek()] > chars[i]){
+                    st.pop();
+                    k--;
+                }
+                st.push(i);
+            }
+        }
+
+        String re = "";
+        for (Integer integer : st) {
+            re =  re + chars[integer];
+        }
+        if (k!= 0){
+            if (re.length() > k){
+                re = re.substring(0,re.length()-k);
+            }else {
+                re = "0";
+            }
+        }
+        while (re.length()>1 && re.startsWith("0")){
+            re = re.substring(1);
+        }
+        return re;
+
+    }
+
     @Test
     public void merge() {
+
         int[] list = {4,6,7,2,1,4};
-        mergeS(list,0,list.length-1);
+        MergesS(list,0,list.length-1);
         for (int i : list) {
             System.out.print(i+",");
         }
@@ -191,9 +393,7 @@ class XylearnApplicationTests {
         while (l2<=end){
             temp[i++] = list[l2++];
         }
-        for (int k = 0;k<temp.length;k++){
-            list[start+k] = temp[k];
-        }
+        if (temp.length >= 0) System.arraycopy(temp, 0, list, start + 0, temp.length);
 
     }
 

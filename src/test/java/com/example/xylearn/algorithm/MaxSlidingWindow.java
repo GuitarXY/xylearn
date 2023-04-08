@@ -1,8 +1,6 @@
 package com.example.xylearn.algorithm;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -48,11 +46,44 @@ public class MaxSlidingWindow {
     }
 
     /**
+     * 全排列
+     * nums = [1,2,3]
+     * 输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> lis = new ArrayList<>();
+        boolean[] use = new boolean[nums.length];
+        deepPermute(0,nums,use,lis,new ArrayList<>());
+        return lis;
+    }
+
+
+    private void deepPermute(int i, int[] nums, boolean[] use,List<List<Integer>> lis, List<Integer> objects) {
+        if (objects.size() == nums.length){
+            lis.add(objects);
+            return;
+        }
+
+        for (int j =0; j <nums.length; j++) {
+            if (!use[j]){
+                objects.add(nums[j]);
+                use[j] = true;
+            }
+            int k = j+1;
+            deepPermute(k,nums,use,lis,objects);
+            use[j] = false;
+        }
+    }
+
+    /**
      * 接雨水
      * @param height
      * @return
      */
     public int trap(int[] height) {
+
 //        int ans = 0, current = 0;
 //        Deque<Integer> stack = new LinkedList<Integer>();
 //        while (current < height.length) {

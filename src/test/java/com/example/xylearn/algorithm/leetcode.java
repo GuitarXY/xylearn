@@ -1,8 +1,13 @@
 package com.example.xylearn.algorithm;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.example.util.TreeNode;
 import com.example.xylearn.common.ListNode;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -20,6 +25,10 @@ public class leetcode {
      * @param nums
      * @return
      */
+    @Test
+    public void tesReversPairs(){
+        reversePairs(new int[]{7,5,6,4});
+    }
     public int reversePairs(int[] nums) {
         int len = nums.length;
 
@@ -43,6 +52,7 @@ public class leetcode {
         int rightPairs = reversePairs(nums, mid + 1, right, temp);
 
         if (nums[mid] <= nums[mid + 1]) {
+            //左边最大的都是又边最小的还要小，所以合并也是0
             return leftPairs + rightPairs;
         }
 
@@ -54,28 +64,60 @@ public class leetcode {
         for (int i = left; i <= right; i++) {
             temp[i] = nums[i];
         }
-
+        int k = left;
         int i = left;
         int j = mid + 1;
 
-        int count = 0;
-        for (int k = left; k <= right; k++) {
 
-            if (i == mid + 1) {
-                nums[k] = temp[j];
-                j++;
-            } else if (j == right + 1) {
-                nums[k] = temp[i];
-                i++;
-            } else if (temp[i] <= temp[j]) {
-                nums[k] = temp[i];
-                i++;
-            } else {
-                nums[k] = temp[j];
-                j++;
-                count += (mid - i + 1);
-            }
-        }
+
+        int count = 0;
+
+       while (i<=mid && j <= right){
+           while (i<=mid && temp[i]<=temp[j]){
+               nums[k++] = temp[i];
+               i++;
+           }
+           while (j<=right && temp[i]>temp[j]){
+               nums[k++] = temp[j];
+               j++;
+               count = count+(mid-i+1);
+           }
+       }
+       if (i == mid+1){
+           //左边遍历完了
+           while (j <= right){
+               nums[k++] = temp[j];
+               j++;
+           }
+       }
+       if (j == right+1){
+           //y右边遍历完了
+           while (i <= mid){
+               nums[k++] = temp[i];
+               i++;
+           }
+       }
+//
+//
+//
+//
+//        for (int k = left; k <= right; k++) {
+//
+//            if (i == mid + 1) {
+//                nums[k] = temp[j];
+//                j++;
+//            } else if (j == right + 1) {
+//                nums[k] = temp[i];
+//                i++;
+//            } else if (temp[i] <= temp[j]) {
+//                nums[k] = temp[i];
+//                i++;
+//            } else {
+//                nums[k] = temp[j];
+//                j++;
+//                count += (mid - i + 1);
+//            }
+//        }
         return count;
     }
 
@@ -84,17 +126,63 @@ public class leetcode {
     //     if(te == index){
     //         return nums[te];
     //     }else{
-    //         return te>index? quickSelect(nums,l,r-1,index):quickSelect(nums,l,r-1,index)
+    //         return te > index ? quickSelect(nums,l,r-1,index):quickSelect(nums,l,r-1,index)
     //     }
     // }
 
+    public int reverNum(int[] num){
+        if (num.length<=1){
+            return 0;
+        }
+        return reverse(num,0,num.length-1);
+    }
 
+    private int reverse(int[] num, int left, int right) {
+        if(left>= right){
+            return 0;
+        }
+        int mid = left + (right-left)/2;
+        int sum = reverse(num,left,mid)+reverse(num,mid+1,right);
+        int l = left;
+        int r = mid+1;
+        int[] tem = new int[right-left+1];
+        int i = 0;
+        while(l<=mid && r <=right){
+            if (num[l]<=num[r]){
+                tem[i++] = num[l++];
+            }else {
+                tem[i++] = num[r++];
+                sum += mid-l+1;
+            }
+        }
+        while(l<=left){
+            tem[i++]=num[l++];
+        }
+        while(r<=right){
+            tem[i++]=num[r++];
+        }
+        System.arraycopy(tem ,0,num,left,right-left+1);
 
+        return sum;
+    }
+    List<String> alist;
     public static void main(String[] args) {
+
+    leetcode lc = new leetcode();
+        final String s3 = JSON.toJSONString(lc, SerializerFeature.WriteNullListAsEmpty);
+        System.out.println(s3);
+        final leetcode leetcode1 = JSONObject.parseObject(s3, leetcode.class);
+        final String s4 = JSON.toJSONString(lc);
+        System.out.println(s4);
+        final leetcode leetcode = JSONObject.parseObject(s4, leetcode.class);
+        lc.reverNum(new int[]{7,6,2,8});
         String s = "wordgoodgoodgoodbestword";
         String[] word = new String[]{"word","good","best","good"};
         leetcode c = new leetcode();
         List<Integer> substring = c.findSubstring(s, word);
+        final List<String> strings = Arrays.asList("12312", "41123");
+        final String s1 = JSON.toJSONString(strings);
+        final String s2 = StringEscapeUtils.escapeXml(s1);
     }
 
     public List<Integer> findSubstring(String s, String[] words) {
@@ -307,52 +395,163 @@ public class leetcode {
         System.out.println(medianSortedArrays);
 
     }
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        if (nums1.length > nums2.length) {
-            int[] temp = nums1;
-            nums1 = nums2;
-            nums2 = temp;
-        }
+//    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+//        if (nums1.length > nums2.length) {
+//            int[] temp = nums1;
+//            nums1 = nums2;
+//            nums2 = temp;
+//        }
+//
+//        int m = nums1.length;
+//        int n = nums2.length;
+//
+//        // 分割线左边的所有元素需要满足的个数 m + (n - m + 1) / 2;
+//        int totalLeft = (m + n + 1) / 2;
+//
+//        // 在 nums1 的区间 [0, m] 里查找恰当的分割线，
+//        // 使得 nums1[i - 1] <= nums2[j] && nums2[j - 1] <= nums1[i]
+//        int left = 0;
+//        int right = m;
+//
+//        while (left < right) {
+//            int i = left + (right - left + 1) / 2;
+//            int j = totalLeft - i;
+//            if (nums1[i - 1] > nums2[j]) {
+//                // 下一轮搜索的区间 [left, i - 1]
+//                right = i - 1;
+//            } else {
+//                // 下一轮搜索的区间 [i, right]
+//                left = i;
+//            }
+//        }
+//
+//        int i = left;
+//        int j = totalLeft - i;
+//
+//        int nums1LeftMax = i == 0 ? Integer.MIN_VALUE : nums1[i - 1];
+//        int nums1RightMin = i == m ? Integer.MAX_VALUE : nums1[i];
+//        int nums2LeftMax = j == 0 ? Integer.MIN_VALUE : nums2[j - 1];
+//        int nums2RightMin = j == n ? Integer.MAX_VALUE : nums2[j];
+//
+//        if (((m + n) % 2) == 1) {
+//            return Math.max(nums1LeftMax, nums2LeftMax);
+//        } else {
+//            return (double) ((Math.max(nums1LeftMax, nums2LeftMax) + Math.min(nums1RightMin, nums2RightMin))) / 2;
+//        }
+//    }
+//@Test
+//public void testleetcode312() {
+//        int[] i = new int[]{0,1,0,2,1,0,1,3,2,1,2,1};
+//
+//
+//lengthOfLongestSubstring("abcabcbb")
+//}
+//    public int lengthOfLongestSubstring(String s) {
+//
+//    }
 
-        int m = nums1.length;
-        int n = nums2.length;
-
-        // 分割线左边的所有元素需要满足的个数 m + (n - m + 1) / 2;
-        int totalLeft = (m + n + 1) / 2;
-
-        // 在 nums1 的区间 [0, m] 里查找恰当的分割线，
-        // 使得 nums1[i - 1] <= nums2[j] && nums2[j - 1] <= nums1[i]
-        int left = 0;
-        int right = m;
-
-        while (left < right) {
-            int i = left + (right - left + 1) / 2;
-            int j = totalLeft - i;
-            if (nums1[i - 1] > nums2[j]) {
-                // 下一轮搜索的区间 [left, i - 1]
-                right = i - 1;
-            } else {
-                // 下一轮搜索的区间 [i, right]
-                left = i;
+    public int widthOfBinaryTree(TreeNode root) {
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int max = 0;
+        while (!queue.isEmpty()){
+            int i = queue.size();
+            max = Math.max(i,max);
+            for (int j = 0; j < i; j++) {
+                final TreeNode poll = queue.poll();
+                if (poll==null && (j==0 || j == i-1)){
+                    continue;
+                }
+                if (poll == null || poll.val == null) {
+                    queue.push(new TreeNode());
+                    queue.push(new TreeNode());
+                    continue;
+                }
+                queue.push(poll.left);
+                queue.push(poll.right);
+            }
+            while (queue.peekFirst() != null && queue.peekFirst().val ==null){
+                queue.pollFirst();
+            }
+            while (queue.peekLast() != null && queue.peekLast().val==null){
+                queue.pollLast();
             }
         }
-
-        int i = left;
-        int j = totalLeft - i;
-
-        int nums1LeftMax = i == 0 ? Integer.MIN_VALUE : nums1[i - 1];
-        int nums1RightMin = i == m ? Integer.MAX_VALUE : nums1[i];
-        int nums2LeftMax = j == 0 ? Integer.MIN_VALUE : nums2[j - 1];
-        int nums2RightMin = j == n ? Integer.MAX_VALUE : nums2[j];
-
-        if (((m + n) % 2) == 1) {
-            return Math.max(nums1LeftMax, nums2LeftMax);
-        } else {
-            return (double) ((Math.max(nums1LeftMax, nums2LeftMax) + Math.min(nums1RightMin, nums2RightMin))) / 2;
-        }
+        return max;
     }
 
+//    private void dess(int[] a, int[] b) {
+//        int dp[][] = new int[a.length][b.length];
+//        for (int i = 1; i < a.length; i++) {
+//            for (int i1 = 1; i1 < b.length; i1++) {
+//                if (a[i]==b[i1]){
+//                    dp[i][i1]=dp[i-1][i1-1]+1;
+//                }else {
+//                    dp[i][i1] = Math.max(dp[i-1][i1-1],dp[])
+//                }
+//            }
+//        }
+//    }
 
+    public ListNode removeNthFromEnd (ListNode head, int n) {
+        ListNode cur = head;
+        int k = n;
+         while (cur.next != null && k-- != 0) {
+             cur = cur.next;
+         }
+        ListNode cur1befor = new ListNode();
+         cur1befor.next = head;
+        ListNode cur1 = head;
+         while (cur.next != null){
+             cur1befor = cur1befor.next;
+             cur1 = cur1.next;
+             cur = cur.next;
+         }
+         cur1befor.next = cur1.next;
+         return head;
+    }
+
+    public double findMedianSortedArrays(int[] A, int[] B) {
+//        int m = A.length;
+//        int n = B.length;
+//        int len = m + n;
+//        int left = -1, right = -1;
+//        int aStart = 0, bStart = 0;
+//        for (int i = 0; i <= len / 2; i++) {
+//            left = right;
+//            if (aStart < m && (bStart >= n || A[aStart] < B[bStart])) {
+//                right = A[aStart++];
+//            } else {
+//                right = B[bStart++];
+//            }
+//        }
+//        if ((len & 1) == 0)
+//            return (left + right) / 2.0;
+//        else
+//            return right;
+
+
+        int a= A.length;
+        int b = B.length;
+        int m = a+b;
+        int aStart = 0,bStart = 0;
+        int left = -1,right = -1;
+        for(int i = 0 ; i<= m/2 ;i++){
+            left = right;
+            if(aStart<a&& bStart < b&&(A[aStart] <= B[bStart]) ){
+                right = A[aStart++];
+            }if (bStart >= b){
+                right = A[aStart++];
+            }else {
+                right = B[bStart++];
+            }
+        }
+        if((m&1) == 1){
+            return right;
+        }else{
+            return (left + right) /2.0;
+        }
+    }
     @Test
     public void findNListNodeAndRemove(ListNode node, int n) {
         ListNode temp = new ListNode(0);
@@ -376,7 +575,32 @@ public class leetcode {
         System.out.println(updateQwxidList);
     }
 
+    public void qS(int[] list,int start,int end){
+        if(start>=end){
+            return;
+        }
+        int tem = list[start];
+        int l = start+1;
+        int r = end;
+        while(l<r){
+            while(l<r && list[l]<=tem){
+                l++;
+            }
+            while(l<r && list[r]>tem){
+                r--;
+            }
+            if(l<r){
+                int t= list[l];
+                list[l] =list[r];
+                list[r] = t;
+            }
+        }
+        if(tem < list[l]){
 
+        }
+//        qS(lsit,start,l-1);
+//        qS(lsit,l+1,e);
+    }
     @Test
     public void findNoRepeated(){
 

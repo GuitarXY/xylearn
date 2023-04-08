@@ -1,10 +1,22 @@
 package com.example.xylearn.common;
 
+import java.util.logging.Level;
+
 public class ListNode {
     private  int key;
     private String value;
     public ListNode next;
-
+    public static ListNode of(String s){
+        final String[] split = s.split(",");
+        ListNode l = new ListNode();
+        ListNode tesss = l;
+        for (String s1 : split) {
+            ListNode te = new ListNode(Integer.parseInt(s1));
+            tesss.next = te;
+            tesss = tesss.next;
+        }
+        return l.next;
+    }
     public ListNode() {
     }
 

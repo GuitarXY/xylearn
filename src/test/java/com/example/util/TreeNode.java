@@ -1,6 +1,6 @@
 package com.example.util;
 public class TreeNode {
-    public int val;
+    public Integer val;
     public TreeNode left;
     public TreeNode right;
     public TreeNode() {}
@@ -9,5 +9,21 @@ public class TreeNode {
         this.val = val;
         this.left = left;
         this.right = right;
+    }
+
+    public static TreeNode of(Integer[] integers) {
+        TreeNode t = deepTreeNode(0,integers);
+        return t;
+    }
+//1.3.2.5.3.NULL.9
+    private static TreeNode deepTreeNode(int i , Integer[] integers) {
+        if (i >= integers.length){
+            return null;
+        }
+        TreeNode t = new TreeNode();
+        t.val = integers[i];
+        t.left = deepTreeNode(i*2+1,integers);
+        t.right = deepTreeNode(i*2+2,integers);
+        return t;
     }
 }

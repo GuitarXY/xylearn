@@ -5,13 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Year;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
@@ -114,8 +108,19 @@ public class DateTest {
         System.out.println("with2 :" + with2);
     }
 
+    public static void main(String[] args) {
+//        if (null){}
+    }
     @Test
     public void DateTimeToDate() {
+        LocalDateTime tim = LocalDateTime.now();
+//        Date e = Date.from(tim.toInstant(ZoneOffset.of()))
+
+
+
+
+
+
         LocalDate localDate = LocalDate.now();
         ZoneId zoneId = ZoneId.systemDefault();
         ZonedDateTime zonedDateTime = localDate.atStartOfDay(zoneId);

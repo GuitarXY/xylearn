@@ -50,8 +50,17 @@ public class NormalDateGeneralAnalyser extends BaseGeneralAnalyser<LocalDate, Da
     }
 
     public static final Pattern DATE_EXTRACT = Pattern.compile(".*(\\d{4})\\s{0,4}[\\-/年]\\s{0,4}(\\d{1,2})\\s{0,4}[\\-/月](\\s{0,4}(\\d{1,2})[日]?)?.*");
-
+    public static final Pattern PasswordMatcher = Pattern.compile("^(?=.*[a-zA-Z])[a-zA-Z\\d]{6,20}$");
+    public static final Pattern PasswordMatcher1 = Pattern.compile("^(.*[a-zA-Z])");
+    public static final Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z\\d]{6,20}$");
     public static void main(String[] args) {
+        Matcher matcher1 = PasswordMatcher.matcher("sss");
+        if (matcher1.matches()) {
+            System.out.println("11");
+        }
+
+
+
         Matcher matcher = DATE_EXTRACT.matcher("2021/9/13");
 
         String year = "";
