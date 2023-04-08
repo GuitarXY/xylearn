@@ -118,6 +118,7 @@ public class leetcode {
 //                count += (mid - i + 1);
 //            }
 //        }
+        maste1
         return count;
     }
 
