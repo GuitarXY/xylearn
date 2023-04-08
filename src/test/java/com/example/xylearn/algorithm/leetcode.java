@@ -119,7 +119,6 @@ public class leetcode {
 //                count += (mid - i + 1);
 //            }
 //        }
-test1
         return count;
     }
 
